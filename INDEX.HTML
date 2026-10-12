@@ -112,7 +112,7 @@
             position: relative;
             width: 280px;
             height: 380px;
-            margin: 10px auto 20px auto;
+            margin: 30px auto;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -195,11 +195,13 @@
             }
 
             70% {
+                /* Stops right at the outer edge of the shield barrier */
                 transform: translate(calc(var(--end-x, 0px) * 0.75), calc(var(--end-y, 80px) * 0.75)) scale(0.8);
                 opacity: 0.9;
             }
 
             100% {
+                /* Zeno's paradox: infinitely slows down and fades without touching */
                 transform: translate(calc(var(--end-x, 0px) * 0.8), calc(var(--end-y, 80px) * 0.8)) scale(0.3);
                 opacity: 0;
             }
@@ -216,7 +218,6 @@
             z-index: 2;
             animation: bodyFloat 4s ease-in-out infinite alternate;
             position: relative;
-            transition: filter 0.3s ease;
         }
 
         @keyframes bodyFloat {
@@ -416,4 +417,208 @@
     <!-- Screen Flash/Effect Layer -->
     <div class="screen-effect" id="screenEffect"></div>
 
-    <!--
+    <!-- Main Container -->
+    <div class="container" id="mainContainer">
+        <h1>Satoru Gojo</h1>
+
+        <p class="intro-text">
+            Satoru Gojo is the strongest special-grade jujutsu sorcerer from Jujutsu Kaisen. His abilities rely on
+            combining his inherited spatial technique with god-tier sensory perception.
+        </p>
+
+        <!-- Gojo Character Viewport with automated defense shield and infinity barrier -->
+        <div class="character-viewport">
+            <div class="defense-shield"></div>
+            <!-- Infinitely approaching objects that stop via Infinity -->
+            <div class="infinity-object io-1" style="--end-x: 0px; --end-y: 110px;"></div>
+            <div class="infinity-object io-2" style="--end-x: 100px; --end-y: -70px;"></div>
+            <div class="infinity-object io-3" style="--end-x: -110px; --end-y: -40px;"></div>
+
+            <!-- Satoru Gojo Photo Introduction -->
+            <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&auto=format&fit=crop&q=80"
+                alt="Satoru Gojo" class="gojo-img" id="gojoImage">
+        </div>
+
+        <!-- Abilities Interactive Grid -->
+        <div class="abilities-section">
+
+            <!-- Card 1: Techniques (Blue, Red, Purple, Black Flash) -->
+            <div class="ability-card">
+                <h3>Core Techniques</h3>
+                <div class="ability-content">
+                    <ul>
+                        <li><strong>Cursed Technique Lapse: Blue:</strong> Creates a magnetic-like gravitational pull by
+                            generating negative distance in space, crushing or dragging everything toward a central
+                            point.</li>
+                        <li><strong>Cursed Technique Reversal: Red:</strong> The inverse of Blue that uses positive
+                            cursed energy to create a massive repulsive force, blasting away everything in its path with
+                            double the power of Blue.</li>
+                        <li><strong>Hollow Technique: Purple:</strong> A combination of Blue and Red that merges
+                            attraction and repulsion into an imaginary mass, erasing anything in its trajectory.</li>
+                        <li><strong>Black Flash:</strong> A distortion in space caused by applying cursed energy within
+                            a 0.000001-second window of a physical hit, elevating his strike to 120% power.</li>
+                    </ul>
+                </div>
+                <button class="action-btn" onclick="activateTechniques()">Unleash Techniques</button>
+            </div>
+
+            <!-- Card 2: Domain Expansion & Anti-Domain -->
+            <div class="ability-card">
+                <h3>Domain Expansion & Anti-Domain</h3>
+                <div class="ability-content">
+                    <ul>
+                        <li><strong>Unlimited Void (Immeasurable Void):</strong> His domain expansion creates a psychic
+                            space that floods the target's brain with an infinite amount of sensory information and
+                            knowledge, paralyzing them completely.</li>
+                        <li><strong>Simple Domain & Falling Blossom Emotion:</strong> Anti-domain techniques used to
+                            neutralize or deflect guaranteed-hit attacks from enemy domains.</li>
+                    </ul>
+                </div>
+                <button class="action-btn" onclick="activateDomain()">Open Domain</button>
+            </div>
+
+            <!-- Card 3: Movement & Support -->
+            <div class="ability-card">
+                <h3>Movement & Support</h3>
+                <div class="ability-content">
+                    <ul>
+                        <li><strong>Teleportation:</strong> Compresses space between himself and a destination to move
+                            instantaneously (or fold a path instantly).</li>
+                        <li><strong>Flight / Levitation:</strong> Manipulates spatial coordinates to float or travel
+                            through the air at high speeds.</li>
+                        <li><strong>Reversed Cursed Technique (RCT):</strong> Channels positive energy to rapidly heal
+                            his own body or refuel his brain against burnout.</li>
+                    </ul>
+                </div>
+                <button class="action-btn" onclick="activateMovement()">Execute Movement</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Fixed Bottom Access Button Bar -->
+    <div class="bottom-access-bar">
+        <button class="master-btn" onclick="accessFullIntroduction()">Access Entire Introduction</button>
+    </div>
+
+    <!-- Dynamic Popup Feedback -->
+    <div class="ability-popup" id="abilityPopup">
+        <h2 id="popupTitle">Ability Activated</h2>
+        <p id="popupDesc">Infinite power unleashed across space.</p>
+    </div>
+
+    <script>
+        // Generate Dynamic Background Floating Particles (Infinity flow)
+        const bg = document.getElementById('infinityBg');
+        const particleCount = 45;
+
+        for (let i = 0; i < particleCount; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+
+            const size = Math.random() * 6 + 2;
+            p.style.width = `${size}px`;
+            p.style.height = `${size}px`;
+
+            p.style.top = `${Math.random() * 100}%`;
+            p.style.left = `${Math.random() * 100}%`;
+
+            const tx = (Math.random() - 0.5) * 400 + 'px';
+            const ty = (Math.random() - 0.5) * 400 + 'px';
+            p.style.setProperty('--tx', tx);
+            p.style.setProperty('--ty', ty);
+
+            const duration = Math.random() * 6 + 4;
+            const delay = Math.random() * 5;
+            p.style.animationDuration = `${duration}s`;
+            p.style.animationDelay = `${delay}s`;
+
+            bg.appendChild(p);
+        }
+
+        // Popup Helper Function
+        function showPopup(title, desc, bgColor, borderColor) {
+            const popup = document.getElementById('abilityPopup');
+            const pTitle = document.getElementById('popupTitle');
+            const pDesc = document.getElementById('popupDesc');
+
+            pTitle.innerText = title;
+            pTitle.style.color = borderColor;
+            pDesc.innerText = desc;
+
+            popup.style.background = bgColor;
+            popup.style.borderColor = borderColor;
+            popup.style.boxShadow = `0 0 50px ${borderColor}`;
+
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 3000);
+        }
+
+        // 1. Core Techniques Action
+        function activateTechniques() {
+            const effect = document.getElementById('screenEffect');
+            effect.style.background = 'radial-gradient(circle, rgba(138,43,226,0.4) 0%, rgba(0,243,255,0.3) 50%, rgba(0,0,0,0.8) 100%)';
+            effect.classList.add('active');
+
+            showPopup('Hollow Purple & Black Flash!', 'Negative and positive cursed energy merge into an imaginary mass, erasing everything in its trajectory.', 'rgba(20, 5, 35, 0.95)', '#a020f3');
+
+            setTimeout(() => {
+                effect.classList.remove('active');
+            }, 1500);
+        }
+
+        // 2. Domain Expansion Action
+        function activateDomain() {
+            const effect = document.getElementById('screenEffect');
+            effect.style.background = 'radial-gradient(circle, rgba(0,191,255,0.6) 0%, rgba(10,10,40,0.95) 80%)';
+            effect.classList.add('active');
+
+            const container = document.getElementById('mainContainer');
+            container.style.transform = 'scale(1.01)';
+            container.style.filter = 'drop-shadow(0 0 20px #00f3ff)';
+
+            showPopup('Unlimited Void', 'Infinite information floods the brain, paralyzing all targets completely within the psychic space.', 'rgba(5, 15, 35, 0.98)', '#00f3ff');
+
+            setTimeout(() => {
+                effect.classList.remove('active');
+                container.style.transform = 'scale(1)';
+                container.style.filter = 'none';
+            }, 2500);
+        }
+
+        // 3. Movement & Support Action
+        function activateMovement() {
+            const gojoImg = document.getElementById('gojoImage');
+            gojoImg.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            gojoImg.style.transform = 'translateY(-40px) scale(1.15) rotate(3deg)';
+
+            showPopup('Teleportation & Flight', 'Space compresses instantaneously; Gojo floats effortlessly above all coordinates.', 'rgba(10, 35, 35, 0.95)', '#33ff99');
+
+            setTimeout(() => {
+                gojoImg.style.transform = 'translateY(0px) scale(1) rotate(0deg)';
+            }, 1200);
+        }
+
+        // Bottom Access Button Action (Access entire introduction & interact)
+        function accessFullIntroduction() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+            const effect = document.getElementById('screenEffect');
+            effect.style.background = 'radial-gradient(circle, rgba(0,243,255,0.5) 0%, rgba(0,102,255,0.2) 60%, transparent 100%)';
+            effect.classList.add('active');
+
+            showPopup('The Strongest Sorcerer', 'Welcome to the archive of Satoru Gojo. All spatial defenses and infinity barriers are fully active.', 'rgba(5, 20, 40, 0.95)', '#00f3ff');
+
+            setTimeout(() => {
+                effect.classList.remove('active');
+            }, 1800);
+        }
+    </script>
+</body>
+
+</html>
