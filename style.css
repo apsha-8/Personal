@@ -1,0 +1,19 @@
+body {
+    background-color: skyblue;
+    font-family: Arial, san-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+input {
+    padding: 10px;
+    margin: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
